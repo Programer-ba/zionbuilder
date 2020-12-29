@@ -1,5 +1,6 @@
 <template>
 	<div class="znpb-option-repeater">
+
 		<RepeaterOption
 			v-for="(item, index) in modelValue"
 			:key="index"
@@ -10,15 +11,18 @@
 			:default_item_title="default_item_title"
 			:deletable="!addable ? false : deletable"
 			:clonable="checkClonable"
+			:isAccordion="isAccordion"
 			@clone-option="cloneOption($event, index)"
 			@delete-option="deleteOption"
 			@update:modelValue="onItemChange($event)"
 			ref="repeaterItem"
 		>
 		</RepeaterOption>
+
 		<Button
 			v-if="showButton"
 			class="znpb-option-repeater__add-button"
+			:class="{'znpb-option-repeater__add-button--blue': !isAccordion}"
 			type="line"
 			@click="addProperty"
 		>
@@ -89,6 +93,11 @@ export default {
 		add_template: {
 			type: Object,
 			required: false
+		},
+		isAccordion: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	components: {
@@ -158,5 +167,15 @@ export default {
 	width: 100%;
 	margin-top: 5px;
 	text-align: center;
+
+	&--blue {
+		color: $secondary-color--accent;
+		background-color: $secondary;
+
+		&:hover {
+			color: rgba($secondary-color--accent, .7);
+			background-color: rgba($secondary, .9);
+		}
+	}
 }
 </style>

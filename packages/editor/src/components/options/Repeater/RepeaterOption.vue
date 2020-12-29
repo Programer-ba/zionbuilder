@@ -1,5 +1,23 @@
 <template>
+	<div
+		class="znpb-option-repeater-no-accordion"
+		v-if="!isAccordion"
+	>
+		<OptionsForm
+			:schema="schema"
+			:modelValue="selectedOptionModel"
+			@update:modelValue="onItemChange($event, propertyIndex)"
+			class="znpb-option-repeater-form"
+		/>
+		<Icon
+			v-if="deletable"
+			class="znpb-option-repeater-selector__delete-icon"
+			@click.stop="deleteOption(propertyIndex)"
+			icon="delete"
+		></Icon>
+	</div>
 	<HorizontalAccordion
+		v-else
 		:title="title"
 		:combine-breadcrumbs="true"
 		:show-back-button="true"
@@ -70,6 +88,11 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
+		},
+		isAccordion: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	computed: {
@@ -116,5 +139,25 @@ export default {
 <style lang="scss">
 .znpb-options-form-wrapper.znpb-option-repeater-form {
 	padding-top: 0;
+}
+.znpb-option-repeater-no-accordion {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+
+	.znpb-option-repeater-form {
+		padding: 0;
+	}
+	.znpb-option-repeater-selector__delete-icon {
+		padding: 11px;
+		border: 2px solid var(--zion-border-color);
+		border-radius: 3px;
+		cursor: pointer;
+	}
+
+	.znpb-input-type--number_unit {
+		padding-bottom: 0;
+		padding-left: 0;
+	}
 }
 </style>
