@@ -178,7 +178,7 @@ import buttonComponent from './inlineEditorComponents/button.vue'
 import colorPicker from './inlineEditorComponents/colorPicker.vue'
 import fontWeight from './inlineEditorComponents/fontWeightButton.vue'
 import panelLink from './inlineEditorComponents/panelLink.vue'
-import editorsManager from './editorsManager'
+import { useInlineEditor } from '@composables'
 import { usePreviewMode } from '@zb/editor'
 
 export default {
@@ -209,11 +209,14 @@ export default {
 			default: 'p'
 		}
 	},
-	setup() {
+	setup () {
 		const { isPreviewMode } = usePreviewMode()
+		const { closeEditor, opendEditor } = useInlineEditor()
 
 		return {
-			isPreviewMode
+			isPreviewMode,
+			opendEditor,
+			closeEditor
 		}
 	},
 	data () {
@@ -525,10 +528,10 @@ export default {
 			if (newValue) {
 				this.$nextTick(() => {
 					this.initTinyMCE()
-					editorsManager.opendEditor(this)
+					this.opendEditor(this)
 				})
 			} else {
-				editorsManager.closeEditor()
+				this.closeEditor()
 				// Destroy tinyMce
 				if (typeof window.tinyMCE !== 'undefined') {
 					window.tinyMCE.remove(this.editor)
@@ -544,7 +547,7 @@ export default {
 	},
 
 	beforeUnmount () {
-		editorsManager.closeEditor()
+		this.closeEditor()
 		document.removeEventListener('keydown', this.hideEditorOnEscapeKey, true)
 		document.removeEventListener('click', this.onOutsideClick, true)
 		document.removeEventListener('scroll', this.hideInlineEditor)

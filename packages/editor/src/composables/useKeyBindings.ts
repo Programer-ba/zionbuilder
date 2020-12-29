@@ -1,4 +1,5 @@
 import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory } from '@composables'
+import { useInlineEditor } from '@zionbuilder/preview/src/composables/'
 
 export const useKeyBindings = () => {
 	const { togglePanel } = usePanels()
@@ -6,6 +7,9 @@ export const useKeyBindings = () => {
 	const { savePage, isSavePageLoading } = useSavePage()
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
 	const { editorData } = useEditorData()
+	const { isInlineEditorOpen } = useInlineEditor()
+
+	console.log('useinline', isInlineEditorOpen)
 
 	const getNextFocusedElement = (element) => {
 		const parentContent = element.parent.content
@@ -26,18 +30,19 @@ export const useKeyBindings = () => {
 
 	function isEditable() {
 		let el = document.activeElement; // focused element
-		if(el && ~['input','textarea'].indexOf(el.tagName.toLowerCase())) {
+		if (el && ~['input', 'textarea'].indexOf(el.tagName.toLowerCase())) {
 			return !el.readOnly && !el.disabled;
 		}
 
 		el = getSelection().anchorNode; // selected node
-		if(!el) return undefined; // no selected node
+		if (!el) return undefined; // no selected node
 		el = el.parentNode; // selected element
 		return el.isContentEditable;
 	}
 
 	// end checkMousePosition
 	const applyShortcuts = (e) => {
+
 		// Save CTRL+S
 		if (e.which === 83 && e.ctrlKey && !e.shiftKey) {
 			e.preventDefault()
@@ -146,19 +151,19 @@ export const useKeyBindings = () => {
 
 
 		// Toggle treeView panel
-		if (e.shiftKey && e.code === 'KeyT') {
+		if (!isInlineEditorOpen.value && e.shiftKey && e.code === 'KeyT') {
 			togglePanel('panel-tree')
 			e.preventDefault()
 		}
 
 		// Opens Library
-		if (e.shiftKey && e.code === 'KeyL') {
+		if (!isInlineEditorOpen.value && e.shiftKey && e.code === 'KeyL') {
 			togglePanel('PanelLibraryModal')
 			e.preventDefault()
 		}
 
 		// Opens Page options
-		if (e.shiftKey && e.code === 'KeyO') {
+		if (!isInlineEditorOpen.value && e.shiftKey && e.code === 'KeyO') {
 			togglePanel('panel-global-settings')
 			e.preventDefault()
 		}
