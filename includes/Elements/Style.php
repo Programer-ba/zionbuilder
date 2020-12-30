@@ -162,6 +162,7 @@ class Style {
 		$transform_origin_z      = '';
 		$compiled_filter         = '';
 		$flex_reverse            = isset( $style_options['flex-reverse'] ) ? $style_options['flex-reverse'] : false;
+		$grid_cols               = '';
 
 		foreach ( $style_options as $attribute => $value ) {
 
@@ -180,6 +181,11 @@ class Style {
 							$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
 							break;
 
+					}
+					break;
+				case 'grid-template-columns':
+					foreach ( $value as $key => $colvalue ) {
+						$grid_cols .= $colvalue['cols'] . ' ';
 					}
 					break;
 
@@ -367,6 +373,9 @@ class Style {
 				case 'inline-flex':
 					$compiled_css .= sprintf( 'display: -webkit-inline-box; display: -ms-inline-flexbox;' );
 					break;
+				case 'grid':
+					$compiled_css .= sprintf( 'display: -ms-grid; display: grid;' );
+					break;
 			}
 		}
 
@@ -429,6 +438,11 @@ class Style {
 			} else {
 				$compiled_css .= sprintf( 'transition: %s %sms %s ;', $property, $duration, $timing_function );
 			}
+		}
+
+		// Grid
+		if ( ! empty( $grid_cols ) ) {
+			$compiled_css .= sprintf( 'grid-template-columns: %s;', $grid_cols );
 		}
 
 		return $compiled_css;
