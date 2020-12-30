@@ -4,7 +4,7 @@ const responsiveDevices = {
 	mobile: '575.98px'
 }
 
-export function getStyles(cssSelector, styleValues = {}) {
+export function getStyles (cssSelector, styleValues = {}) {
 	let compiledStyles = ''
 	const devices = [
 		'default',
@@ -23,7 +23,7 @@ export function getStyles(cssSelector, styleValues = {}) {
 	return compiledStyles
 }
 
-export function getPseudoStyles(cssSelector, pseudoSelectors = {}) {
+export function getPseudoStyles (cssSelector, pseudoSelectors = {}) {
 	let combinedStyles = ''
 
 	Object.keys(pseudoSelectors).forEach((pseudoSelectorId) => {
@@ -34,7 +34,7 @@ export function getPseudoStyles(cssSelector, pseudoSelectors = {}) {
 	return combinedStyles
 }
 
-function compilePseudoStyle(cssSelector, pseudoSelector, styleValues) {
+function compilePseudoStyle (cssSelector, pseudoSelector, styleValues) {
 	const append = pseudoSelector !== 'default' ? `${pseudoSelector}` : ''
 	const compiledStyles = compileStyleTabs(styleValues)
 	const content = styleValues.content
@@ -47,7 +47,7 @@ function compilePseudoStyle(cssSelector, pseudoSelector, styleValues) {
 	return ''
 }
 
-export function getResponsiveDeviceStyles(deviceId, styles) {
+export function getResponsiveDeviceStyles (deviceId, styles) {
 	// Don't proceed if we do not have
 	if (!deviceId || !styles) {
 		return ''
@@ -60,7 +60,7 @@ export function getResponsiveDeviceStyles(deviceId, styles) {
 	return `${start}${styles}${end}`
 }
 
-export function compileStyleTabs(styleValues) {
+export function compileStyleTabs (styleValues) {
 	let combineStyles = ''
 	let filtersGroup = ''
 	const backgroundImageConfig = []
@@ -81,6 +81,9 @@ export function compileStyleTabs(styleValues) {
 		border = {},
 		'border-radius': borderRadius = {},
 		'transform': transform = [],
+		// Grid
+		'grid-template-columns': gridTemplateColumns = [],
+		'grid-template-rows': gridTemplateRows = [],
 		// Transitions
 		'transition-property': transitionProperty = 'all',
 		'transition-duration': transitionDuration = 0,
@@ -397,10 +400,37 @@ export function compileStyleTabs(styleValues) {
 		combineStyles += `transition: ${transitionProperty} ${transitionDuration}ms ${transitionTimingFunction} ${delayCompiled};`
 	}
 
+	// Grid
+	if (gridTemplateColumns) {
+		let gridColString = ''
+		gridTemplateColumns.forEach(gridCol => {
+			const property = gridCol['cols']
+			if (property !== undefined) {
+				gridColString += `${property} `
+			}
+		})
+		if (gridColString) {
+			combineStyles += `-ms-grid-columns: ${gridColString};grid-template-columns: ${gridColString};`
+		}
+	}
+
+	if (gridTemplateRows) {
+		let gridRowString = ''
+		gridTemplateRows.forEach(gridRow => {
+			const property = gridRow['rows']
+			if (property !== undefined) {
+				gridRowString += `${property} `
+			}
+		})
+		if (gridRowString) {
+			combineStyles += `-ms-grid-rows: ${gridRowString};grid-template-rows: ${gridRowString};`
+		}
+	}
+
 	return combineStyles
 }
 
-export function getGradientCss(config) {
+export function getGradientCss (config) {
 	let gradient = []
 	let position
 
@@ -436,7 +466,7 @@ export function getGradientCss(config) {
 	return gradient.join(', ')
 }
 
-function compileShadow(textShadowValue) {
+function compileShadow (textShadowValue) {
 	let {
 		'offset-x': offsetX,
 		'offset-y': offsetY,
@@ -473,7 +503,7 @@ function compileShadow(textShadowValue) {
 	return null
 }
 
-export function compileFontTab(styleValues) {
+export function compileFontTab (styleValues) {
 	let css = ''
 
 	const {
@@ -569,7 +599,7 @@ export function compileFontTab(styleValues) {
 	return css
 }
 
-function compileBorder(borderValue) {
+function compileBorder (borderValue) {
 	let css = ''
 	Object.keys(borderValue).forEach(borderPosition => {
 		const allBorders = borderPosition === 'all'
@@ -596,7 +626,7 @@ function compileBorder(borderValue) {
 	return css
 }
 
-function compileBorderRadius(borderRadiusValue) {
+function compileBorderRadius (borderRadiusValue) {
 	let css = ''
 
 	if (borderRadiusValue && Object.keys(borderRadiusValue).length === 0) {
