@@ -101,6 +101,7 @@ export default {
 		},
 		panel: {}
 	},
+
 	setup () {
 		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
 		const { getMainbarPosition, getIframeOrder, iFrame } = useEditorInteractions()
@@ -214,7 +215,8 @@ export default {
 				position: panel.isDetached ? 'fixed' : 'relative',
 				order: panel.panelPos,
 				userSelect: this.userSel,
-				transform: (this.isDragging) ? `translate3d(${this.position.posX}${this.unit},${this.position.posY}${this.unit},0)` : null
+				transform: (this.isDragging) ? `translate3d(${this.position.posX}${this.unit},${this.position.posY}${this.unit},0)` : null,
+				'z-index': (this.isDragging || panel.isDetached) ? '99999' : null,
 			}
 			return cssStyles
 		},
@@ -283,6 +285,7 @@ export default {
 				}
 				if (closest) {
 					const overlappedPanelId = closest.id
+
 					const idProps = this.getPanel(overlappedPanelId)
 					if (idProps && !idProps.isDetached) {
 						const domElement = document.getElementById(overlappedPanelId)
@@ -349,6 +352,7 @@ export default {
 
 				if (placement === 'before' && panelOrder >= order) {
 					otherPanelOrder = panelOrder + 1
+
 				} else if (placement === 'after' && panelOrder > order) {
 					otherPanelOrder = panelOrder + 1
 				} else {
@@ -373,13 +377,16 @@ export default {
 			orders.sort(function (a, b) {
 				return a[1] - b[1]
 			})
+
 			orders.forEach((order, index) => {
+
 				if (order[0] === 'znpb-editor-iframe') {
 					this.iFrame.set('order', index + 1)
 				} else {
-					this.panel.set('panelPos', index + 1)
+					this.panel.set('panelPos', order[1])
 				}
 			})
+
 		},
 		disablePanelMove () {
 			this.$refs.panelContainer.style.pointerEvents = null
