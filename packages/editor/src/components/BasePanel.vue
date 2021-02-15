@@ -383,7 +383,7 @@ export default {
 				if (order[0] === 'znpb-editor-iframe') {
 					this.iFrame.set('order', index + 1)
 				} else {
-					this.panel.set('panelPos', order[1])
+					this.panel.set('panelPos', index + 1)
 				}
 			})
 
