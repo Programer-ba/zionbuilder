@@ -233,6 +233,11 @@ svg:not(:root).icon {
 			opacity: .5;
 		}
 	}
+	&.zion-element-menu {
+		path:first-child {
+			opacity: .5;
+		}
+	}
 	&.zion-library-illustration {
 		path:first-child {
 			color: $font-color;
