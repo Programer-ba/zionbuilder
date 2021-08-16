@@ -650,7 +650,8 @@ export default {
 		margin-bottom: 0;
 	}
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		background-color: var(--zb-surface-lighter-color);
 
 		& > .znpb-editor-icon-wrapper {
@@ -682,5 +683,220 @@ export default {
 	display: flex;
 	width: 100%;
 	margin-bottom: 10px;
+}
+
+.znpb-element-form__wp_widget {
+	.widget-inside {
+		background-color: transparent;
+	}
+
+	.wp-core-ui .media-widget-control {
+		.selected,
+		&.selected .not-selected,
+		&.selected .placeholder {
+			display: none;
+		}
+	}
+
+	.media-widget-control {
+		p {
+			margin-bottom: 20px;
+		}
+
+		input[type="text"],
+		input[type="number"],
+		select,
+		textarea {
+			width: 100%;
+			height: auto;
+			padding: 10.5px 12px;
+			margin: 0;
+			color: var(--zb-surface-text-color);
+			font-family: var(--zb-font-stack);
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 1;
+			background: var(--zb-input-bg-color);
+			border: 2px solid var(--zb-input-border-color);
+			background-image: none;
+			box-shadow: none;
+			border-radius: 3px;
+			-webkit-appearance: none;
+
+			&:focus {
+				color: var(--zb-input-text-color);
+				background: var(--zb-input-bg-color);
+				box-shadow: none;
+				outline: 0;
+			}
+		}
+
+		label {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			margin-bottom: 10px;
+			color: var(--zb-surface-text-hover-color);
+			font-family: var(--zb-font-stack);
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 14px;
+			padding: 0;
+		}
+
+		small {
+			color: var(--zb-surface-text-color);
+		}
+
+		.button {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			padding: 13.5px 20px;
+			color: var(--zb-secondary-text-color);
+			background: var(--zb-secondary-color);
+			font-family: var(--zb-font-stack);
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 1;
+			border-radius: 3px;
+			transition: all 0.3s;
+			cursor: pointer;
+			user-select: none;
+
+			&:hover,
+			&:focus {
+				background: var(--zb-secondary-hover-color);
+			}
+		}
+
+		&.selected .selected {
+			display: inline-flex;
+		}
+
+		.mejs-time {
+			height: auto;
+		}
+	}
+
+	.wp-editor-tools {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+	}
+
+	.wp-editor-wrap .mce-tinymce {
+		margin-bottom: 10px;
+	}
+
+	.wp-media-buttons .button {
+		min-height: 34px;
+		padding: 7.5px 16px;
+		margin-bottom: 10px;
+		border-radius: 3px;
+		text-transform: none;
+		transition: background-color 0.15s;
+	}
+
+	.wp-editor-tabs {
+		margin-left: auto;
+		display: flex;
+	}
+
+	.wp-editor-tabs button {
+		top: 0;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		height: 30px;
+		padding: 6px 12px;
+		margin: 0;
+		color: var(--zb-surface-text-color);
+		background: transparent;
+		border: none;
+		cursor: pointer;
+	}
+
+	.wp-editor-wrap.tmce-active .switch-tmce,
+	.wp-editor-wrap.html-active .switch-html {
+		color: var(--zb-surface-text-active-color);
+		background: var(--zb-surface-lighter-color);
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+	}
+
+	.wp-editor-wrap .wp-media-buttons {
+		position: relative;
+		top: -10px;
+	}
+
+	.wp-editor-wrap .wp-media-buttons .button {
+		margin: 0;
+	}
+
+	.wp-editor-wrap .wp-editor-container {
+		width: 100%;
+	}
+
+	.wp-editor-wrap .quicktags-toolbar {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.wp-editor-wrap .quicktags-toolbar .button {
+		color: var(--zb-surface-text-active-color);
+		background: transparent;
+		border: 2px solid var(--zb-surface-border-color);
+		padding: 5px 10px;
+		margin: 0 3px 3px 0;
+
+		&:hover {
+			background: none;
+			opacity: 0.6;
+		}
+	}
+
+	.wp-editor-wrap .mce-panel {
+		background: var(--zb-surface-lighter-color);
+		border: 0 !important;
+		box-shadow: none;
+	}
+
+	.wp-editor-wrap .mce-toolbar-grp {
+		background: var(--zb-surface-lighter-color);
+		border-bottom: 2px solid var(--zb-surface-border-color);
+	}
+
+	.wp-editor-wrap .mce-toolbar .mce-btn-group {
+		padding: 10px;
+	}
+
+	.wp-editor-wrap .mce-btn {
+		background: 0 0;
+		border: 0;
+		text-shadow: none;
+	}
+
+	.wp-editor-wrap .mce-btn:hover,
+	.wp-editor-wrap .mce-btn:active {
+		background: var(--zb-surface-lightest-color);
+	}
+
+	.wp-editor-wrap .mce-ico {
+		color: var(--zb-surface-text-color);
+	}
+
+	.media-widget-control .attachment-media-view .button-add-media {
+		background: transparent;
+		border-color: var(--zb-surface-border-color);
+		border-width: 2px;
+		color: var(--zb-surface-text-color);
+		transition: border-color 0.2s;
+
+		&:hover {
+			background: transparent;
+			border-color: var(--zb-surface-icon-color);
+		}
+	}
 }
 </style>
